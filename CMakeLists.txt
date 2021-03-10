@@ -3,10 +3,14 @@ project(dynamicProxying)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Boost REQUIRED)
+
+
 
 add_executable(dynamicProxying main.cpp)
 
-target_link_libraries(dynamicProxying PRIVATE Boost::boost pthread)
+target_link_libraries(dynamicProxying
+        PRIVATE
+            dynamicProxyingLib)
 
+add_subdirectory(src)
 add_subdirectory(tests)

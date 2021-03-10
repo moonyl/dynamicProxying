@@ -8,7 +8,10 @@ find_package(doctest CONFIG REQUIRED)
 
 add_executable(testDynamicProxying
         testMain.cpp
+        testAppArgParser.cpp
         )
 
 target_link_libraries(testDynamicProxying PRIVATE
-        doctest::doctest)
+        dynamicProxyingLib
+        doctest::doctest
+        )

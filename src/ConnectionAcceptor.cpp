@@ -1,0 +1,33 @@
+//
+// Created by moony on 3/9/21.
+//
+
+#include "ConnectionAcceptor.h"
+#include <memory>
+#include "ConnectionListener.h"
+#include <iostream>
+#include "ProxySession.h"
+using namespace std;
+using namespace boost::asio;
+using boost::asio::ip::tcp;
+
+
+ConnectionAcceptor::ConnectionAcceptor(io_context &ioContext, ConnectionListener &listener) :
+    _listener{listener}, _ioContext{ioContext} {}
+
+
+void ConnectionAcceptor::start() {
+    auto session = make_shared<ProxySession>(_ioContext);
+    std::cout << "after creation: " << session.get() << std::endl;
+    _sessions.insert(session);
+    _listener.accept(*session, [&, session](const boost::system::error_code& errCode){
+        if (errCode)   {
+            std::cerr << "error" << std::endl;
+            return;
+        }
+        std::cout << "accepted" << std::endl;
+        std::cout << "after accepted: " << session.get() << std::endl;
+        session->connectProxy();
+        start();
+    });
+}
