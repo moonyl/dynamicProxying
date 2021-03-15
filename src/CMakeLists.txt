@@ -22,10 +22,15 @@ else()
     find_library(skyrUrl skyr-url REQUIRED)
 endif()
 
+find_library(hiredisLib hiredis REQUIRED)
+find_library(redisPlusPlus redis++ REQUIRED)
+
+find_package(spdlog CONFIG REQUIRED)
+
 add_library(dynamicProxyingLib STATIC
         AppArgParser.cpp
         ConnectionListener.cpp
-        ConnectionAcceptor.cpp ConnectionAcceptor.h ProxySession.cpp ProxySession.h)
+        ConnectionAcceptor.cpp ConnectionAcceptor.h ProxySession.cpp ProxySession.h ProxyHostFinder.cpp ProxyHostFinder.h utils/urls.h redis/RedisClient.cpp redis/RedisClient.h redis/keys.h redis/servers.h redis/servers.cpp redis/IRedisClient.h)
 
 target_include_directories(dynamicProxyingLib
         PUBLIC
@@ -34,6 +39,10 @@ target_include_directories(dynamicProxyingLib
 target_link_libraries(dynamicProxyingLib
         PUBLIC
         ${skyrUrl}
+        ${redisPlusPlus}
+        ${hiredisLib}
+        spdlog::spdlog
+        spdlog::spdlog_header_only
         Boost::boost
         pthread
         )
