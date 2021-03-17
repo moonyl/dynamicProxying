@@ -3,7 +3,6 @@
 //
 
 #include "ProxyHostFinder.h"
-#include <iostream>
 #include "redis/RedisClient.h"
 #include "redis/keys.h"
 #include "redis/servers.h"

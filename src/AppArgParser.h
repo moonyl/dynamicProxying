@@ -8,11 +8,14 @@
 
 class AppArgParser
 {
+    argagg::parser _argParser;
     argagg::parser_results _args;
 public:
     AppArgParser(int argc, const char *argv[]);
 
     unsigned short port() const;
+    bool helpRequested() const;
+    std::string helpMessage() const;
 };
 
 
